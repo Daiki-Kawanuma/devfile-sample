@@ -32,6 +32,26 @@ components:
           targetPort: 9990
           protocol: http
           exposure: internal
+  - name: db
+    container:
+      image:  registry.redhat.io/rhel9/postgresql-13:1-193
+      env:
+        - name: POSTGRESQL_USER
+          value: postgres
+        - name: POSTGRESQL_PASSWORD
+          value: password
+        - name: POSTGRESQL_DATABASE
+          value: pgdb
+      # endpoints:
+      #   - name: postgres
+      #     targetPort: 5432
+      #     exposure: public
+  - name: pgadmin
+    container:
+      image:  dpage/pgadmin4:latest
+  - name: wiremock
+    container:
+      image:  wiremock/wiremock:latest
   - name: m2
     volume:
       size: 3Gi
