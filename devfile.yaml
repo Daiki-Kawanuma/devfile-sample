@@ -37,9 +37,9 @@ components:
       image:  registry.redhat.io/rhel9/postgresql-13:1-193
       env:
         - name: POSTGRESQL_USER
-          value: postgres
+          value: user
         - name: POSTGRESQL_PASSWORD
-          value: password
+          value: pass
         - name: POSTGRESQL_DATABASE
           value: pgdb
       # endpoints:
