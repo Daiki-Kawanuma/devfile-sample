@@ -43,14 +43,14 @@ components:
           value: pass
         - name: POSTGRESQL_DATABASE
           value: pgdb
-      # endpoints:
-      #   - name: postgres
-      #     targetPort: 5432
-      #     exposure: public
-  - name: pgadmin
-    container:
-      image:  dpage/pgadmin4:latest
-      memoryLimit: 1512Mi
+      endpoints:
+        - name: postgres
+          targetPort: 5432
+          exposure: public
+  # - name: pgadmin
+  #   container:
+  #     image:  dpage/pgadmin4:latest
+  #     memoryLimit: 1512Mi
   - name: wiremock
     container:
       image:  wiremock/wiremock:latest
