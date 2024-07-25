@@ -35,6 +35,7 @@ components:
   - name: db
     container:
       image:  registry.redhat.io/rhel9/postgresql-13:1-193
+      memoryLimit: 1512Mi      
       env:
         - name: POSTGRESQL_USER
           value: user
