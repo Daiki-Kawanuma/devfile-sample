@@ -58,6 +58,11 @@ components:
     volume:
       size: 3Gi
 commands:
+  - id: 01-smaple
+    exec:
+      label: 01. Run Sample
+      component: tools
+      commandLine: mvn verify
   - id: package
     exec:
       label: "01 - Build the application."
