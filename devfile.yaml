@@ -51,9 +51,9 @@ components:
   #   container:
   #     image:  dpage/pgadmin4:latest
   #     memoryLimit: 1512Mi
-  # - name: wiremock
-  #   container:
-  #     image:  wiremock/wiremock:latest
+  - name: wiremock
+    container:
+      image:  wiremock/wiremock:latest
   - name: m2
     volume:
       size: 3Gi
