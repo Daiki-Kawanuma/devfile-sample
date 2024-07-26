@@ -32,28 +32,28 @@ components:
           targetPort: 9990
           protocol: http
           exposure: internal
-  - name: db
-    container:
-      image:  registry.redhat.io/rhel9/postgresql-13:1-193
-      memoryLimit: 1512Mi
-      env:
-        - name: POSTGRESQL_USER
-          value: user
-        - name: POSTGRESQL_PASSWORD
-          value: pass
-        - name: POSTGRESQL_DATABASE
-          value: pgdb
-      endpoints:
-        - name: postgres
-          targetPort: 5432
-          exposure: public
+  # - name: db
+  #   container:
+  #     image:  registry.redhat.io/rhel9/postgresql-13:1-193
+  #     memoryLimit: 1512Mi
+  #     env:
+  #       - name: POSTGRESQL_USER
+  #         value: user
+  #       - name: POSTGRESQL_PASSWORD
+  #         value: pass
+  #       - name: POSTGRESQL_DATABASE
+  #         value: pgdb
+  #     endpoints:
+  #       - name: postgres
+  #         targetPort: 5432
+  #         exposure: public
   # - name: pgadmin
   #   container:
   #     image:  dpage/pgadmin4:latest
   #     memoryLimit: 1512Mi
-  - name: wiremock
-    container:
-      image:  wiremock/wiremock:latest
+  # - name: wiremock
+  #   container:
+  #     image:  wiremock/wiremock:latest
   - name: m2
     volume:
       size: 3Gi
@@ -87,4 +87,58 @@ commands:
       hotReloadCapable: true
       group:
         kind: debug
+        isDefault: true
+  - id: start-db
+    exec:
+      label: "04 - Start the PostgreSQL"
+      component: tools
+      commandLine: oc new-app postgresql-ephemeral -p DATABASE_SERVICE_NAME=postgresql -p POSTGRESQL_DATABASE=postgres -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=postgres -p POSTGRESQL_VERSION=13-el9
+      hotReloadCapable: true
+      group:
+        kind: db
+        isDefault: true
+  - id: restart-db
+    exec:
+      label: "05 - Restart the PostgreSQL"
+      component: tools
+      commandLine: oc delete pod -l name=postgresql
+      hotReloadCapable: true
+      group:
+        kind: db
+        isDefault: true
+  - id: delete-db
+    exec:
+      label: "06 - Delete the PostgreSQL"
+      component: tools
+      commandLine: oc delete dc,svc,secret postgresql
+      hotReloadCapable: true
+      group:
+        kind: db
+        isDefault: true
+  - id: start-wiremock
+    exec:
+      label: "07 - Start the Wiremock"
+      component: tools
+      commandLine: oc new-app --image=wiremock/wiremock:latest --name=wiremock
+      hotReloadCapable: true
+      group:
+        kind: wiremock
+        isDefault: true
+  - id: restart-wiremock
+    exec:
+      label: "08 - Restart the Wiremock"
+      component: tools
+      commandLine: oc delete pod -l name=wiremock
+      hotReloadCapable: true
+      group:
+        kind: wiremock
+        isDefault: true
+  - id: delete-wiremock
+    exec:
+      label: "09 - Delete the Wiremock"
+      component: tools
+      commandLine: oc delete dc,svc,secret wiremock
+      hotReloadCapable: true
+      group:
+        kind: wiremock
         isDefault: true
