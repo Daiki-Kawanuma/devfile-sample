@@ -57,93 +57,94 @@ components:
   - name: m2
     volume:
       size: 3Gi
+
 commands:
   - id: 01-smaple
     exec:
       label: 01. Run Sample
       component: tools
       commandLine: mvn verify
-  - id: package
-    exec:
-      label: "01 - Build the application."
-      component: tools
-      commandLine: mvn clean verify
-      workingDir: ${PROJECT_SOURCE}
-      hotReloadCapable: true
-      group:
-        kind: build
-        isDefault: true
-  - id: run
-    exec:
-      label: "02 - Run the application in dev mode."
-      component: tools
-      commandLine: mvn -Dwildfly.javaOpts="-Djboss.host.name=${NODE_NAME}" -Dmaven.test.skip=true clean package org.wildfly.plugins:wildfly-maven-plugin:dev
-      workingDir: ${PROJECT_SOURCE}
-      hotReloadCapable: true
-      group:
-        kind: run
-        isDefault: true
-  - id: debug
-    exec:
-      label: "03 - Debug the application in dev mode."
-      component: tools
-      commandLine: mvn -Dwildfly.javaOpts="-Djboss.host.name=${NODE_NAME} -agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n" -Dmaven.test.skip=true clean package org.wildfly.plugins:wildfly-maven-plugin:dev
-      workingDir: ${PROJECT_SOURCE}
-      hotReloadCapable: true
-      group:
-        kind: debug
-        isDefault: true
-  - id: start-db
-    exec:
-      label: "04 - Start the PostgreSQL"
-      component: tools
-      commandLine: oc new-app postgresql-ephemeral -p DATABASE_SERVICE_NAME=postgresql -p POSTGRESQL_DATABASE=postgres -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=postgres -p POSTGRESQL_VERSION=13-el9
-      hotReloadCapable: true
-      group:
-        kind: deploy
-        isDefault: true
-  - id: restart-db
-    exec:
-      label: "05 - Restart the PostgreSQL"
-      component: tools
-      commandLine: oc delete pod -l name=postgresql
-      hotReloadCapable: true
-      group:
-        kind: deploy
-        isDefault: true
-  - id: delete-db
-    exec:
-      label: "06 - Delete the PostgreSQL"
-      component: tools
-      commandLine: oc delete dc,svc,secret postgresql
-      hotReloadCapable: true
-      group:
-        kind: deploy
-        isDefault: true
-  - id: start-wiremock
-    exec:
-      label: "07 - Start the Wiremock"
-      component: tools
-      commandLine: oc new-app --image=wiremock/wiremock:latest --name=wiremock
-      hotReloadCapable: true
-      group:
-        kind: deploy
-        isDefault: true
-  - id: restart-wiremock
-    exec:
-      label: "08 - Restart the Wiremock"
-      component: tools
-      commandLine: oc delete pod -l name=wiremock
-      hotReloadCapable: true
-      group:
-        kind: deploy
-        isDefault: true
-  - id: delete-wiremock
-    exec:
-      label: "09 - Delete the Wiremock"
-      component: tools
-      commandLine: oc delete dc,svc,secret wiremock
-      hotReloadCapable: true
-      group:
-        kind: deploy
-        isDefault: true
+  # - id: package
+  #   exec:
+  #     label: "01 - Build the application."
+  #     component: tools
+  #     commandLine: mvn clean verify
+  #     workingDir: ${PROJECT_SOURCE}
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: build
+  #       isDefault: true
+  # - id: run
+  #   exec:
+  #     label: "02 - Run the application in dev mode."
+  #     component: tools
+  #     commandLine: mvn -Dwildfly.javaOpts="-Djboss.host.name=${NODE_NAME}" -Dmaven.test.skip=true clean package org.wildfly.plugins:wildfly-maven-plugin:dev
+  #     workingDir: ${PROJECT_SOURCE}
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: run
+  #       isDefault: true
+  # - id: debug
+  #   exec:
+  #     label: "03 - Debug the application in dev mode."
+  #     component: tools
+  #     commandLine: mvn -Dwildfly.javaOpts="-Djboss.host.name=${NODE_NAME} -agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n" -Dmaven.test.skip=true clean package org.wildfly.plugins:wildfly-maven-plugin:dev
+  #     workingDir: ${PROJECT_SOURCE}
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: debug
+  #       isDefault: true
+  # - id: start-db
+  #   exec:
+  #     label: "04 - Start the PostgreSQL"
+  #     component: tools
+  #     commandLine: oc new-app postgresql-ephemeral -p DATABASE_SERVICE_NAME=postgresql -p POSTGRESQL_DATABASE=postgres -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=postgres -p POSTGRESQL_VERSION=13-el9
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: deploy
+  #       isDefault: true
+  # - id: restart-db
+  #   exec:
+  #     label: "05 - Restart the PostgreSQL"
+  #     component: tools
+  #     commandLine: oc delete pod -l name=postgresql
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: deploy
+  #       isDefault: true
+  # - id: delete-db
+  #   exec:
+  #     label: "06 - Delete the PostgreSQL"
+  #     component: tools
+  #     commandLine: oc delete dc,svc,secret postgresql
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: deploy
+  #       isDefault: true
+  # - id: start-wiremock
+  #   exec:
+  #     label: "07 - Start the Wiremock"
+  #     component: tools
+  #     commandLine: oc new-app --image=wiremock/wiremock:latest --name=wiremock
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: deploy
+  #       isDefault: true
+  # - id: restart-wiremock
+  #   exec:
+  #     label: "08 - Restart the Wiremock"
+  #     component: tools
+  #     commandLine: oc delete pod -l name=wiremock
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: deploy
+  #       isDefault: true
+  # - id: delete-wiremock
+  #   exec:
+  #     label: "09 - Delete the Wiremock"
+  #     component: tools
+  #     commandLine: oc delete dc,svc,secret wiremock
+  #     hotReloadCapable: true
+  #     group:
+  #       kind: deploy
+  #       isDefault: true
