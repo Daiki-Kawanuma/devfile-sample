@@ -24,10 +24,14 @@ components:
           exposure: internal
           protocol: tcp
           targetPort: 5005
-        - name: 'http'
+        - name: 'wiremock'
           protocol: https
           targetPort: 8080
           exposure: public
+        - name: 'spring'
+          protocol: https
+          targetPort: 8081
+          exposure: public          
         - name: 'management'
           targetPort: 9990
           protocol: http
